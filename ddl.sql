@@ -19,3 +19,4 @@ alter table producto
 add constraint fk_producto_fabricanteproductoproducto
 foreign key (codigo_fabricante)
 references fabricante (codigo);
+

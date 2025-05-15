@@ -1,4 +1,4 @@
-FABRICANTE
+
 USE `pcgamer`;
 DROP procedure IF EXISTS `fabricante`;
 
@@ -18,7 +18,10 @@ DELIMITER ;
 
 DELIMITER ;
 
-PRODUCTO
+
+USE `pcgamer`;
+DROP procedure IF EXISTS `producto`;
+
 USE `pcgamer`;
 DROP procedure IF EXISTS `pcgamer`.`producto`;
 ;
@@ -27,14 +30,13 @@ DELIMITER $$
 USE `pcgamer`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `producto`(
  in nombre varchar(100),
- in precio double
- 
+ in precio double,
+ in codigo_fabricante int (10)
 )
 BEGIN
-insert into producto (nombre,precio)
-values(nombre,precio);
+insert into producto (nombre,precio,codigo_fabricante)
+values(nombre,precio,codigo_fabricante);
 END$$
 
 DELIMITER ;
 ;
-
