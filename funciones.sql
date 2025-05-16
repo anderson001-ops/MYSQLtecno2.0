@@ -10,7 +10,7 @@ select nombre,precio as euro,
 precio*1.10 as dolar from producto;
 /*5*/
 select nombre as "nombre de producto",
-precio as euros, precio *1.10 as dolares from producto
+precio as euros, precio *0.90 as dolares from producto
 /*6*/
 select upper(nombre) as nombre_Mayuscula,precio from producto;
 /*7*/
@@ -171,6 +171,210 @@ join fabricante f on p.codigo_fabricante = f.codigo where p.precio >= 180 order 
 /*13*/
 select distinct f.codigo, f.nombre
 from fabricante f join producto p on f.codigo = p.codigo_fabricante;
+----------
+/*1*/
+select f.nombre as nombrefabricante,
+p.nombre as nombreproducto
+from fabricante f
+left join producto p on f.codigo=
+p.codigo_fabricante; 
 
+/*2*/
+select f.nombre as nombrefabricante 
+from producto p 
+right join fabricante f on p.codigo_fabricante = f.codigo
+where p.codigo_fabricante is null;
 
+-------
+/*1*/
+select count(*) as totalproducto  from producto;
 
+/*2*/
+select count(*) as totalfabricante  from fabricante;
+
+/*3*/
+select count( distinct codigo_fabricante )
+as distintovalor
+from producto; 
+
+/*4*/
+select avg( precio) as preciomedio
+from producto; 
+
+/*5*/
+select min( precio) as preciomedio
+from producto; 
+
+/*6*/
+select max( precio) as preciomedio
+from producto;
+
+/*7*/
+select nombre, precio
+from producto
+where precio = (select min(precio)
+ from producto); 
+ 
+ /*8*/
+ select nombre, precio
+from producto
+where precio = (select max(precio)
+ from producto); 
+ 
+ /*9*/
+ select sum(precio) as sumaprecio
+ from producto;
+ 
+ /*10*/
+ select count(*)  as totalasus
+ from producto p
+ join fabricante f on p.codigo_fabricante = f.codigo
+ where f.nombre = "asus";
+ 
+ /*11*/
+ select avg(p.precio)  as mediaasus
+ from producto p
+ join fabricante f on p.codigo_fabricante = f.codigo
+ where f.nombre = "asus";
+
+/*12*/
+ select min(p.precio)  as mediaasus
+ from producto p
+ join fabricante f on p.codigo_fabricante = f.codigo
+ where f.nombre = "asus";
+
+/*13*/
+ select max(p.precio)  as mediaasus
+ from producto p
+ join fabricante f on p.codigo_fabricante = f.codigo
+ where f.nombre = "asus";
+
+/*14*/
+select sum(p.precio) as suma_precios_asus
+from producto p
+join fabricante f  on p.codigo_fabricante = f.codigo 
+where  f.nombre = 'asus';
+
+/*15*/
+select max(p.precio) as preciomaximocrucial,
+min(p.precio)  as preciominimocrucial,
+avg(p.precio) as preciomediocrucial,
+count(*) as totalproductocrucial
+from producto p
+join fabricante f on 
+p.codigo_fabricante = f.codigo
+where f. nombre = "crucial";
+
+/*16*/
+select f.nombre as nombrefabricante,
+count(p.codigo) as totalproducto
+from fabricante f
+left join producto p on f.codigo = p.codigo_fabricante
+group by f.nombre 
+order by totalproducto desc;
+
+/*17*/
+select  f.nombre as nombrefabricante,
+max(p.precio) as preciomaximo,
+min(p.precio)  as preciominimo,
+avg(p.precio) as preciomedio
+from fabricante f
+join producto p  on f.codigo = p.codigo_fabricante
+group by f.nombre;
+
+/*18*/
+select f.codigo as codigo_fabricante,
+max(p.precio) as preciomaximo,
+min(p.precio)  as preciominimo,
+avg(p.precio) as preciomedio,
+count(*) as totalproducto
+from fabricante f
+join producto p  on f.codigo = p.codigo_fabricante
+group by f.codigo
+having avg(p.precio) >200;
+
+/*19*/
+select f.nombre as nombrefabricante,
+max(p.precio) as preciomaximo,
+min(p.precio)  as preciominimo,
+avg(p.precio) as preciomedio,
+count(*) as totalproducto
+from fabricante f
+join producto p  on f.codigo = p.codigo_fabricante
+group by f.codigo
+having avg(p.precio) >200;
+
+/*20*/
+select count(*) as totalproducto
+from producto 
+where precio >= 180;
+
+/*21*/
+select f.nombre as nombrefabricante,
+count(p.codigo) as totalproducto
+from fabricante f 
+join producto p on f.codigo = p.codigo_fabricante
+where p.precio >= 180
+group by f.nombre; 
+
+/*22*/
+select f.codigo as codigofabricante, 
+avg(p.precio) as precioomedio
+from fabricante f 
+join producto p on f. codigo = p. codigo_fabricante
+group by f.codigo;
+	
+/*23*/
+select f.nombre as nombrefabricante, 
+avg(p.precio) as precioomedio
+from fabricante f 
+join producto p on f. codigo = p. codigo_fabricante
+group by f.nombre;
+
+/*24*/
+select f.nombre as nombrefabricante
+from fabricante f
+join producto p  on f.codigo = p.codigo_fabricante
+group by f.codigo
+having avg(p.precio) >150;
+
+/*25*/
+select f.nombre as nombrefabricante
+from fabricante f
+join producto p on f.codigo = p.codigo_fabricante
+group by f.nombre 
+having count(p.codigo) >=2;
+
+/*26*/
+select  f.nombre as nombrefabricante,
+count(p.codigo) as totalproductos
+from fabricante f
+join producto p on f.codigo = p.codigo_fabricante
+where p.precio >= 220
+group by f.nombre 
+having count(p.codigo) > 0;
+
+/*27*/
+select f.nombre as nombrefabricante,
+count(p.codigo) as totalproductos
+from fabricante f
+left join producto p on f.codigo = p.codigo_fabricante and p.precio >=220 
+group by f.nombre
+order by totalproductos desc;
+
+/*28*/
+select f.nombre as nombrefabricante
+from fabricante f
+join producto p on f.codigo = p.codigo_fabricante
+group by f.nombre 
+having sum(p.precio) > 1000; 
+
+/*29*/
+select p.nombre as nombreproducto, p.precio, 
+f. nombre as nombrefabricante 
+from producto p 
+join fabricante f on p.codigo_fabricante = f.codigo
+where p.precio = (select max(p2.precio)
+from producto p2
+where p2.codigo_fabricante = p.codigo_fabricante)
+order by nombrefabricante asc; 
