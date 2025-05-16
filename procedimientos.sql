@@ -38,10 +38,5 @@ insert into producto (nombre,precio,codigo_fabricante)
 values(nombre,precio,codigo_fabricante);
 END$$
 
-DELIMITER ;
-<<<<<<< HEAD
-;
-=======
-;
 /*prueba*/
->>>>>>> 12db0f0c679cab69bba577b99093ddd312eb0d6c
+

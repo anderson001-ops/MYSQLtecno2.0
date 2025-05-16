@@ -7,24 +7,17 @@ select nombre ,precio from producto;
 select*from producto;
 /*4*/
 select nombre,precio as euro,
-precio*1.10 as dolar
-from producto;
+precio*1.10 as dolar from producto;
 /*5*/
 select nombre as "nombre de producto",
-precio as euros,
-precio *1.10 as dolares
-from producto
+precio as euros, precio *1.10 as dolares from producto
 /*6*/
-select upper(nombre) as nombre_mayuscula,
-precio from producto;
+select upper(nombre) as nombre_Mayuscula,precio from producto;
 /*7*/
-select lower(nombre) as nombre_minuscula,
-precio from producto
+select lower(nombre) as nombre_minuscula,precio from producto;
 /*8*/
 select nombre as nombre_fabricante,
-upper(left(nombre,2)) as primeroscaracteresfabricante
-from fabricante;
-precio from producto;
+upper(left(nombre,2)) as primeroscaracteresfabricante from fabricante;
 /*9*/
 select nombre as nombre_producto,
 round(precio,2) as redondeadoprecio
@@ -41,12 +34,10 @@ select distinct codigo_fabricante
 from producto;
 /*13*/
 select nombre
-from fabricante
-order by nombre asc
+from fabricante order by nombre asc
 /*14*/
 select nombre
-from fabricante
-order by nombre desc
+from fabricante order by nombre desc
 /*15*/
 select nombre,precio
 from producto
@@ -97,8 +88,7 @@ where codigo_fabricante=1 or codigo_fabricante=3 or codigo_fabricante=5;
 select*from producto
 where codigo_fabricante in (1,3,5)
 /*29*/
-select nombre,
-precio*100 as centimos
+select nombre,precio*100 as centimos
 from producto;
 /*30*/
 select nombre from fabricante
@@ -123,3 +113,64 @@ select nombre,precio from producto
 where precio >=180
 order by precio desc,nombre asc;
 /*hello*/
+-------------
+/*01*/
+select p.nombre, p.precio, f.nombre 
+from producto p join fabricante f on p.codigo_fabricante = f.codigo;
+
+/*02*/
+select p.nombre, p.precio, f.nombre
+from producto p join fabricante f on p.codigo_fabricante = f.codigo order by f.nombre asc;
+
+/*03*/
+select p.codigo, p.nombre, f.codigo, f.nombre
+from producto p join fabricante f on p.codigo_fabricante = f.codigo;
+
+/*04*/
+select p.nombre, p.precio, f.nombre
+from producto p
+join fabricante f on p.codigo_fabricante = f.codigo order by p.precio asc limit 1;
+
+/*05*/
+select p.nombre, p.precio, f.nombre
+from producto p
+join fabricante f on p.codigo_fabricante = f.codigo order by p.precio desc limit 1;
+
+/*06*/
+select p.nombre, p.precio, f.nombre
+from producto p join fabricante f on p.codigo_fabricante = f.codigo where f.nombre = 'Lenovo';
+
+/*07*/
+select p.nombre, p.precio, f.nombre
+from producto p
+join fabricante f on p.codigo_fabricante = f.codigo where f.nombre = 'Crucial' and p.precio > 200;
+
+/*08*/
+select p.nombre, p.precio, f.nombre
+from producto p
+join fabricante f on p.codigo_fabricante = f.codigo where f.nombre in ('Asus', 'Hewlett-Packard', 'Seagate');
+
+/*09*/
+select p.nombre, p.precio, f.nombre
+from producto p
+join fabricante f on p.codigo_fabricante = f.codigo where f.nombre in ('Asus', 'Hewlett-Packard', 'Seagate');
+
+/*10*/
+select p.nombre, p.precio
+from producto p join fabricante f on p.codigo_fabricante = f.codigo where f.nombre like '%e';
+
+/*11*/
+select p.nombre, p.precio
+from producto p join fabricante f on p.codigo_fabricante = f.codigo where f.nombre like '%w%';
+
+/*12*/
+select p.nombre, p.precio, f.nombre
+from producto p
+join fabricante f on p.codigo_fabricante = f.codigo where p.precio >= 180 order by p.precio desc, p.nombre asc;
+
+/*13*/
+select distinct f.codigo, f.nombre
+from fabricante f join producto p on f.codigo = p.codigo_fabricante;
+
+
+
