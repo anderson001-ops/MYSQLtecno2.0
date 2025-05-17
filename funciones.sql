@@ -378,3 +378,175 @@ where p.precio = (select max(p2.precio)
 from producto p2
 where p2.codigo_fabricante = p.codigo_fabricante)
 order by nombrefabricante asc; 
+
+--------------------
+
+#01
+select * from producto 
+WHERE codigo_fabricante = (
+    select codigo 
+    from fabricante
+    where nombre = 'Lenovo'
+);
+
+#02
+select*from producto
+where precio = (
+select max(precio)
+from producto
+where codigo_fabricante = (
+select codigo
+from fabricante
+where nombre = 'lenovo')
+);
+
+#03
+select nombre from producto
+where codigo_fabricante = (
+  select codigo
+  from fabricante
+  where nombre = 'Lenovo'
+)
+order by precio desc
+limit 1;
+
+#04
+select nombre from producto
+where codigo_fabricante = (
+select codigo
+from fabricante
+where nombre = 'Hewlett-Packard'
+)
+order by precio asc
+limit 1;
+
+#05
+select * from producto
+where precio >= (
+select MAX(precio)
+from producto
+where codigo_fabricante = (
+select codigo
+from fabricante
+where nombre = 'Lenovo'
+  )
+);
+
+#06
+select * from producto
+where codigo_fabricante = (
+select codigo
+from fabricante
+where nombre = 'Asus'
+) 
+and precio > (
+select avg(precio)
+from producto
+where codigo_fabricante = (
+select codigo
+from fabricante
+where nombre = 'Asus'
+  )
+);
+
+-----
+#07 
+select nombre, precio 
+from producto 
+where precio >= all (select precio from producto);
+
+#08
+select nombre, precio 
+from producto 
+where precio <= all (select precio from producto);
+
+#09
+select f.nombre 
+from fabricante f
+where f.codigo = any (select codigo_fabricante from producto);
+
+#10
+select f.nombre 
+from fabricante f
+where f.codigo <> any (select codigo_fabricante from producto);
+
+------
+#11
+select nombre from fabricante
+where codigo in (
+select codigo_fabricante
+from producto
+);
+
+#12
+select nombre
+from fabricante
+where codigo not in (
+select codigo_fabricante
+from producto
+);
+
+------
+
+#13
+select nombre
+from fabricante f
+where exists (
+select 1
+from producto p
+where p.codigo_fabricante = f.codigo
+);
+
+#14
+select nombre
+from fabricante f
+where not exists (
+select 1
+from producto p
+where p.codigo_fabricante = f.codigo
+);
+
+------
+
+#15
+select f.nombre as fabricante, p.nombre as producto, p.precio as precio_maximo
+from fabricante f
+join producto p on f.codigo = p.codigo_fabricante
+where p.precio = (
+select MAX(precio)
+from producto
+where codigo_fabricante = f.codigo
+)
+
+#16
+select p.nombre, p.precio
+from producto p
+where p.precio >= (
+select avg(precio)
+from producto
+where codigo_fabricante = p.codigo_fabricante
+)
+
+#17
+select p.nombre
+from producto p
+join fabricante f on p.codigo_fabricante = f.codigo
+where f.nombre = 'Lenovo'
+order by p.precio desc
+limit 1
+
+--------------------
+#18
+select f.nombre as fabricante
+from fabricante f
+join producto p on f.codigo = p.codigo_fabricante
+group by f.nombre
+having COUNT(p.nombre) = (
+select COUNT(p2.nombre)
+from producto p2
+where p2.codigo_fabricante = (
+select codigo 
+from fabricante
+where nombre = 'Lenovo'
+  )
+)
